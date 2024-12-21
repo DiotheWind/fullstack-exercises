@@ -15,14 +15,14 @@ app.get("/", (req, res) => {
 });
 
 app.get("/noAuth", async (req, res) => {
-  const response = await axios.get("https://secrets-api.appbrewery.com/random");
+  const response = await axios.get(API_URL + "random");
   const content = JSON.stringify(response.data);
 
   res.render("index.ejs", { content: content });
 });
 
 app.get("/basicAuth", async (req, res) => {
-  const response = await axios.get("https://secrets-api.appbrewery.com/all?page=2", {
+  const response = await axios.get(API_URL + "all?pages=2", {
     auth: {
       username: yourUsername,
       password: yourPassword
@@ -35,14 +35,14 @@ app.get("/basicAuth", async (req, res) => {
 });
 
 app.get("/apiKey", async (req, res) => {
-  const response = await axios.get(`https://secrets-api.appbrewery.com/filter?score=5&apiKey=${yourAPIKey}`);
+  const response = await axios.get(API_URL + `filter?score=5&apiKey=${yourAPIKey}`);
   const content = JSON.stringify(response.data);
 
   res.render("index.ejs", { content: content });
 });
 
 app.get("/bearerToken", async (req, res) => {
-  const response = await axios.get("https://secrets-api.appbrewery.com/secrets/42", {
+  const response = await axios.get(API_URL + "secrets/42", {
     headers: {
       Authorization: `Bearer ${yourBearerToken}`
     }
