@@ -32,8 +32,6 @@ let posts = [
   },
 ];
 
-let lastId = 3;
-
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -72,6 +70,22 @@ app.post("/posts", (req, res) => {
 })
 
 //CHALLENGE 4: PATCH a post when you just want to update one parameter
+app.patch("/posts/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const index = posts.findIndex(post => post.id === id);
+
+  const editedPost = {
+    id: id,
+    title: req.body.title,
+    content: req.body.content,
+    author: req.body.author,
+    date: new Date().toISOString()
+  }
+
+  posts[index] = editedPost;
+
+  res.json(editedPost);
+})
 
 //CHALLENGE 5: DELETE a specific post by providing the post id.
 
