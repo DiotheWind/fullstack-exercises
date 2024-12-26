@@ -73,16 +73,17 @@ app.post("/posts", (req, res) => {
 app.patch("/posts/:id", (req, res) => {
   const id = Number(req.params.id);
   const index = posts.findIndex(post => post.id === id);
+  const originalPost = posts.find(post => post.id === id)
 
-  if (!posts.find(post => post.id === id)) {
+  if (!originalPost) {
     res.sendStatus(404);
   }
 
   const editedPost = {
     id: id,
-    title: req.body.title,
-    content: req.body.content,
-    author: req.body.author,
+    title: req.body.title ?? originalPost.title,
+    content: req.body.content ?? originalPost.content,
+    author: req.body.author ?? originalPost.author,
     date: new Date().toISOString()
   }
 
