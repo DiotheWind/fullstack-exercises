@@ -74,6 +74,10 @@ app.patch("/posts/:id", (req, res) => {
   const id = Number(req.params.id);
   const index = posts.findIndex(post => post.id === id);
 
+  if (!posts.find(post => post.id === id)) {
+    res.sendStatus(404);
+  }
+
   const editedPost = {
     id: id,
     title: req.body.title,
@@ -92,8 +96,11 @@ app.delete("/posts/:id", (req, res) => {
   const id = Number(req.params.id);
   const index = posts.findIndex(post => post.id === id);
 
-  posts.splice(index, 1);
+  if (index === -1) {
+    res.sendStatus(404);
+  }
 
+  posts.splice(index, 1);
   res.sendStatus(200);
 })
 
