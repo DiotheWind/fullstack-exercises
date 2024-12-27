@@ -24,8 +24,8 @@ db.query("SELECT * FROM flags", (err, res) => {
     console.log("Error executing query", err.stack);
   } else {
     quiz = res.rows;
-    db.end();
   }
+  db.end();
 })
 
 // Middleware
