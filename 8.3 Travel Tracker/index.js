@@ -18,7 +18,7 @@ const db = new pg.Client({
 
 db.connect();
 
-app.get("/", async (req, res) => {
+async function getVisitedCountries() {
   const countries_query = await db.query("SELECT country_code FROM visited_countries");
   let country_codes_arr = [];
 
@@ -26,9 +26,15 @@ app.get("/", async (req, res) => {
     country_codes_arr.push(row.country_code);
   });
 
+  return country_codes_arr;
+}
+
+app.get("/", async (req, res) => {
+  const countries_visited = await getVisitedCountries();
+
   res.render("index.ejs", {
-    countries: country_codes_arr,
-    total: countries_query.rowCount
+    countries: countries_visited,
+    total: countries_visited.length,
   });
 });
 
