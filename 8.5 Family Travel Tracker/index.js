@@ -40,15 +40,17 @@ async function checkVisisted() {
   });
   return countries;
 }
+
 app.get("/", async (req, res) => {
   const countries = await checkVisisted();
   res.render("index.ejs", {
     countries: countries,
     total: countries.length,
     users: users,
-    color: await getColor(), // color here should be the user color so change this
+    color: await getColor(),
   });
 });
+
 app.post("/add", async (req, res) => {
   const input = req.body["country"];
 
@@ -62,7 +64,7 @@ app.post("/add", async (req, res) => {
     const countryCode = data.country_code;
     try {
       await db.query(
-        "INSERT INTO visited_countries (country_code, user_id) VALUES ($1, $2)", // change this to account for user id FK
+        "INSERT INTO visited_countries (country_code, user_id) VALUES ($1, $2)",
         [countryCode, currentUserId]
       );
       res.redirect("/");
@@ -73,6 +75,7 @@ app.post("/add", async (req, res) => {
     console.log(err);
   }
 });
+
 app.post("/user", async (req, res) => {
   if (req.body.add === "new") {
     return res.render("new.ejs");
